@@ -3,9 +3,14 @@ import * as virtualBackground from '../src/index';
 describe('test', () => {
   it('test', () => {
     document.body.innerHTML = `
-      <video id='test-video'></video>
+      <div>
+        <video id='test-video'></video>
+        <canvas id='test-canvus'></canvas>
+        <image id='test-image'></image>
+      </div>
     `;
     const video = document.getElementById('test-video') as HTMLVideoElement;
-    console.log(video);
+    const canvas = document.getElementById('test-canvas') as HTMLCanvasElement;
+    const image = document.getElementById('test-image') as HTMLImageElement;
   });
 });
