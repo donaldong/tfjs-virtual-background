@@ -22,11 +22,12 @@
     "noUnusedParameters": false,
     "pretty": true,
     "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
     "allowUnreachableCode": false,
     "incremental": true
   },
   "include": [
-    "src/"
+    "src/", "test/index_test.ts"
   ],
   "exclude": [
     "node_modules/"
