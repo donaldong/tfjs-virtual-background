@@ -1,5 +1,5 @@
 {
-  "name": "tfjs-virtual-background",
+  "name": "@donaldong/tfjs-virtual-background",
   "version": "0.0.1",
   "main": "dist/index.js",
   "author": "Donald Dong",
@@ -29,5 +29,17 @@
     "prepare": "yarn run compile",
     "pretest": "yarn run compile",
     "posttest": "yarn run lint"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/donaldong/tfjs-virtual-background.git"
+  },
+  "bugs": {
+    "url": "https://github.com/donaldong/tfjs-virtual-background/issues"
+  },
+  "homepage": "https://github.com/donaldong/tfjs-virtual-background#readme",
+  "description": ""
 }
