@@ -12,7 +12,7 @@ export async function init(modelUrl: string) {
   model.init(modelUrl);
 }
 
-export async function draw(params: VirtualBackgroundParams) {
+export function draw(params: VirtualBackgroundParams) {
   const canvas = params.outputCanvas;
   const [height, width] = getInputSize(params.inputImage);
   canvas.width = width;

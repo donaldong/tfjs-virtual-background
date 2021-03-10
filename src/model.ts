@@ -15,7 +15,7 @@ export async function init(modelUrl: string) {
   return MODEL;
 }
 
-export async function drawMask(inputPixels: ImageType, canvas: HTMLCanvasElement) {
+export function drawMask(inputPixels: ImageType, canvas: HTMLCanvasElement) {
   if (MODEL === null) {
     throw new Error('error: Model has not been initialized');
   }
@@ -38,7 +38,7 @@ export async function drawMask(inputPixels: ImageType, canvas: HTMLCanvasElement
     let [, mask] = tf.split(prediction, 2, 2);
 
     mask = tf.image.resizeBilinear(mask, MODEL_RESOLUTION);
-    tensor = mask.mul(input_tensor);
+    tensor = mask.mul(255);
     tensor = tf.cast(tensor, 'int32');
     tf.browser.toPixels(tensor, canvas);
   });
