@@ -9,13 +9,21 @@
     "tfjs": "^0.6.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "@babel/preset-typescript": "^7.13.0",
+    "@types/jest": "^26.0.20",
     "@types/node": "^14.11.2",
+    "babel-jest": "^26.6.3",
     "gts": "^3.1.0",
-    "typescript": "^4.0.3"
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.3",
+    "typescript": "^4.2.3"
   },
   "scripts": {
     "lint": "gts lint",
     "clean": "gts clean",
+    "test": "jest",
     "compile": "tsc",
     "fix": "gts fix",
     "prepare": "yarn run compile",

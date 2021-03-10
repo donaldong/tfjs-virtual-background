@@ -1,5 +1,7 @@
-
-declare type ImageType = HTMLImageElement | HTMLVideoElement | HTMLCanvasElement;
+declare type ImageType =
+  | HTMLImageElement
+  | HTMLVideoElement
+  | HTMLCanvasElement;
 
 export enum Effect {
   Bokeh,
@@ -7,7 +9,7 @@ export enum Effect {
 
 export class VirtualBackground {
   constructor(source: ImageType, background: ImageType | Effect | String) {
-    console.log("source", source);
-    console.log("background", background);
+    console.log('source', source);
+    console.log('background', background);
   }
 }
