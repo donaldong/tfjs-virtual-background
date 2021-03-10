@@ -1,0 +1,11 @@
+{
+  "name": "tfjs-virtual-background",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Donald Dong",
+  "license": "MIT",
+  "dependencies": {
+    "tfjs": "^0.6.0",
+    "typescript": "^4.2.3"
+  }
+}
