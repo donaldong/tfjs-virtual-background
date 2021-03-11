@@ -5,16 +5,21 @@ import {getInputSize, drawToFill} from './util';
 interface VirtualBackgroundParams {
   inputImage: ImageType,
   inputBackground: HTMLImageElement,
+  inputPersonMask: Uint8Array,
   outputCanvas: HTMLCanvasElement,
-  segmentationThreshold?: number,
 }
 
 export async function init(modelUrl: string) {
   model.init(modelUrl);
 }
 
-export async function draw(params: VirtualBackgroundParams) {
+export async function segmentPerson(input: ImageType, segmentationThreshold = 0.5) {
+  return await model.personMask(input, segmentationThreshold);
+}
+
+export function draw(params: VirtualBackgroundParams) {
   const canvas = params.outputCanvas;
+  const mask = params.inputPersonMask;
   const [height, width] = getInputSize(params.inputImage);
   canvas.width = width;
   canvas.height = height;
@@ -23,13 +28,14 @@ export async function draw(params: VirtualBackgroundParams) {
   context.save();
 
   // Paint the person
-  context.drawImage(params.inputBackground, 0, 0);
-  const imageData = context.getImageData(0, 0, width, height).data;
-  const mask = await model.personMask(params.inputImage, params.segmentationThreshold);
-  for (var i = 3, len = imageData.length; i < len; i = i + 4) {
-    imageData[i] = mask[i];
+  const imageData = context.getImageData(0, 0, width, height);
+  for (let i = 0, len = mask.length; i < len; i++) {
+    imageData.data[i * 4 + 3] = mask[i] === 1 ? 255 : 0;
   }
-  context.putImageData(new ImageData(imageData, width, height), 0, 0);
+  context.putImageData(imageData, 0, 0);
+
+  context.globalCompositeOperation = "xor";
+  context.drawImage(params.inputImage, 0, 0);
 
   // Paint the background image
   context.globalCompositeOperation = "destination-atop";

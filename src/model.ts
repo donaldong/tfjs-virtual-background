@@ -13,38 +13,13 @@ function preprocessInput(input: tf.Tensor3D): tf.Tensor3D {
   return tf.tidy(() => tf.sub(tf.div(input, 127.5), 1.0));
 }
 
-function nameOutputResults(results: tf.Tensor3D[]) {
-  const [
-    offsets,
-    segmentation,
-    partHeatmaps,
-    longOffsets,
-    heatmap,
-    displacementFwd,
-    displacementBwd,
-    partOffsets,
-  ] = results;
-  return {
-    offsets,
-    segmentation,
-    partHeatmaps,
-    longOffsets,
-    heatmap,
-    displacementFwd,
-    displacementBwd,
-    partOffsets
-  };
-}
-
 function predict(input: tf.Tensor3D) {
   return tf.tidy(() => {
     const asFloat = preprocessInput(tf.cast(input, 'float32'));
     const asBatch = tf.expandDims(asFloat, 0);
-    const results = MODEL.predict(asBatch) as tf.Tensor4D[];
-    const results3d: tf.Tensor3D[] = results.map(y => tf.squeeze(y, [0]));
-    const namedResults = nameOutputResults(results3d);
-
-    return namedResults.segmentation;
+    const result = MODEL.predict(asBatch) as tf.Tensor4D;
+    const [mask,] = tf.split(result.squeeze(), 2, 2)
+    return mask as tf.Tensor3D;
   });
 }
 
@@ -75,8 +50,8 @@ export function segmentPersonActivation(input: ImageType, segmentationThreshold 
   return segmentation;
 }
 
-// The flattened Uint8Array of segmentation data. 1 means the pixel belongs to a
-// person and 0 means the pixel doesn't belong to a person. The size of the
+// The flattened Uint8Array of segmentation data. 0 means the pixel belongs to a
+// person and 1 means the pixel doesn't belong to a person. The size of the
 // array is equal to `height` x `width` in row-major order.
 export async function personMask(input: ImageType, segmentationThreshold = 0.5) {
   if (MODEL === null) {
